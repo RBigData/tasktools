@@ -1,2 +1,7 @@
 language: R
 warnings_are_errors: true
+
+before_install:
+  - sudo apt-get update -q
+  - sudo apt-get install -y -q libopenmpi-dev openmpi-bin
+  - LD_PRELOAD=/usr/lib/openmpi/lib/libmpi.so
