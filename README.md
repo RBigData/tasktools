@@ -1,7 +1,7 @@
 # tasktools
 
 * **Version:** 0.1-0
-* **Status:** [![Build Status](https://travis-ci.org/rbigdata/tasktools.png)](https://travis-ci.org/rbigdata/tasktools)
+* **Status:** [![Build Status](https://travis-ci.org/RBigData/tasktools.png)](https://travis-ci.org/RBigData/tasktools)
 * **License:** [BSD 2-Clause](http://opensource.org/licenses/BSD-2-Clause)
 * **Author:** Drew Schmidt
 
@@ -21,9 +21,9 @@ The development version is maintained on GitHub, and can easily be installed by 
 
 ```r
 ### Pick your preference
-devtools::install_github("rbigdata/tasktools")
-ghit::install_github("rbigdata/tasktools")
-remotes::install_github("rbigdata/tasktools")
+devtools::install_github("RBigData/tasktools")
+ghit::install_github("RBigData/tasktools")
+remotes::install_github("RBigData/tasktools")
 ```
 
 
