@@ -135,7 +135,11 @@ mpi_napply = function(n, FUN, ..., checkpoint_path=NULL, preschedule=TRUE)
 {
   size = comm.size()
   
-  #TODO param checking
+  check.is.posint(n)
+  check.is.function(FUN)
+  check.is.flag(preschedule)
+  if (!is.null(checkpoint_path))
+    check.is.string(checkpoint_path)
   
   if (size < 2)
     comm.stop("function requires at least 2 ranks")
