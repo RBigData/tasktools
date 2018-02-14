@@ -111,10 +111,14 @@ mpi_napply_nopreschedule = function(n, FUN, ..., checkpoint_path=NULL)
 
 #' mpi_napply
 #' 
-#' An "n-apply" function. 
+#' A distributed "n-apply" function. Syntactically, this is sugar for a
+#' distributed \code{lapply(1:n, FUN)}.
 #' 
 #' @details
-#' TODO
+#' If \code{preschedule=FALSE} then jobs are likely to be evaluated out of order
+#' (that's actually the point). However, the return is reconstructed in the
+#' linear order, so that the first element of the return list is the value
+#' resulting from evaluating \code{FUN} at 1, the second at 2, and so on.
 #' 
 #' @param n
 #' A global, positive integer.
@@ -123,12 +127,18 @@ mpi_napply_nopreschedule = function(n, FUN, ..., checkpoint_path=NULL)
 #' @param ...
 #' Additional arguments passed to \code{FUN}.
 #' @param checkpoint_path
-#' TODO
+#' If a path is specified, then each MPI rank will write checkpoints to disk
+#' during execution. If this path is global (the same on all ranks), then that
+#' path should be accessible to all ranks. However, a local path pointing to
+#' node-local storage can also be used. All checkpoint files will be removed on
+#' successful completion of the function. If the value is the default
+#' \code{NULL}, then no checkpointing takes place.
 #' @param preschedule
-#' TODO
+#' Should the jobs be distributed among the MPI ranks up front? Otherwise, the
+#' jobs will be evaluated on a "first come first serve" basis among the ranks.
 #' 
 #' @return
-#' TODO
+#' A list on rank 0.
 #' 
 #' @export
 mpi_napply = function(n, FUN, ..., checkpoint_path=NULL, preschedule=TRUE)
