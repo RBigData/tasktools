@@ -28,23 +28,35 @@ mpi_napply_nopreschedule = function(n, FUN, ..., checkpoint_path=NULL)
   size = pbdMPI::comm.size()
   rank = pbdMPI::comm.rank()
   
-  if (rank == 0)
-  {
-    i = size - 1L
-    killed = 0L
-    
-    org.local = 0
-    ret.local = NULL
-  }
+  checkpointing = !is.null(checkpoint_path)
+  
+  if (checkpointing)
+    checkpoint = paste0(checkpoint_path, "/pbd", rank, ".rda")
+  
+  # init
+  if (checkpointing && file.exists(checkpoint))
+      load(file=checkpoint)
   else
   {
-    i = rank
-    
-    org.local = integer(0)
-    ret.local = list()
+    if (rank == 0)
+    {
+      i = size - 1L
+      killed = 0L
+      
+      org.local = 0
+      ret.local = NULL
+    }
+    else
+    {
+      i = rank
+      
+      org.local = integer(0)
+      ret.local = list()
+    }
   }
   
   
+  # apply
   while (TRUE)
   {
     if (rank == 0)
@@ -65,10 +77,12 @@ mpi_napply_nopreschedule = function(n, FUN, ..., checkpoint_path=NULL)
         if (killed == size - 1L)
           break
       }
+      
+      if (checkpointing)
+        save(file=checkpoint, i, killed, org.local, ret.local)
     }
     else
     {
-      ### TODO checkpoint
       org.local = c(org.local, i)
       
       ret.local.i = lapply(X=i, FUN=FUN, ...)
@@ -80,9 +94,14 @@ mpi_napply_nopreschedule = function(n, FUN, ..., checkpoint_path=NULL)
       
       if (i == -1L)
         break
+      
+      if (checkpointing)
+        save(file=checkpoint, i, org.local, ret.local)
     }
   }
   
+  
+  # send to rank 0 and reconstruct order
   org = pbdMPI::spmd.gather.object(org.local, rank.dest=0)
   ret.unordered = pbdMPI::spmd.gather.object(ret.local, rank.dest=0)
   
@@ -103,6 +122,9 @@ mpi_napply_nopreschedule = function(n, FUN, ..., checkpoint_path=NULL)
     }
   }
   
+  
+  if (checkpointing)
+    file.remove(checkpoint)
   
   ret
 }
