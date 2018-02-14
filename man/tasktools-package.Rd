@@ -5,7 +5,7 @@
 \alias{tasktools-package}
 \title{tasktools-package}
 \description{
-TODO
+Tools for task-based parallelism with MPI via pbdMPI.
 }
 \author{
 Drew Schmidt

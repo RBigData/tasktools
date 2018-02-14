@@ -2,7 +2,7 @@ Package: tasktools
 Type: Package
 Title: Tools for Task Parallelism with MPI
 Version: 0.1-0
-Description: TODO
+Description: Tools for task-based parallelism with 'MPI'.
 License: BSD 2-clause License + file LICENSE
 Depends:
     R (>= 3.1.0)

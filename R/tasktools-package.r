@@ -1,7 +1,7 @@
 #' tasktools-package
 #' 
 #' @description
-#' TODO
+#' Tools for task-based parallelism with MPI via pbdMPI.
 #' 
 #' @import pbdMPI
 #' 
