@@ -9,6 +9,6 @@ costly = function(x, waittime)
 }
 
 ret = mpi_napply(10, costly, checkpoint_path="/tmp", preschedule=FALSE, waittime=comm.rank())
-comm.print(ret)
+comm.print(unlist(ret))
 
 finalize()

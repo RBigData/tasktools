@@ -1,15 +1,17 @@
 suppressMessages(library(pbdMPI))
 suppressMessages(library(tasktools))
 
-testfun = function(i)
+costly = function(x, waittime)
 {
+  Sys.sleep(waittime)
   rank = comm.rank()
   cat(paste("iter", i, "executed on rank", rank, "\n"))
-  rank
+  
+  sqrt(x)
 }
 
-out = mpi_napply(5, testfun, preschedule=FALSE)
+ret = mpi_napply(5, costly, preschedule=FALSE, waittime=comm.rank())
 comm.cat("\n", quiet=TRUE)
-comm.print(out)
+comm.print(unlist(ret))
 
 finalize()
