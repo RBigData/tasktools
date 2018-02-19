@@ -4,14 +4,14 @@
 \alias{crlapply}
 \title{crlapply}
 \usage{
-crlapply(X, FUN, FILE, FREQ = 1, ...)
+crlapply(X, FUN, ..., checkpoint_file, checkpoint_freq = 1)
 }
 \arguments{
 \item{X, FUN, ...}{Same as in \code{lapply()}.}
 
-\item{FILE}{The checkpoint file.}
+\item{checkpoint_file}{The checkpoint file.}
 
-\item{FREQ}{The checkpoint frequency; a positive integer.}
+\item{checkpoint_freq}{The checkpoint frequency; a positive integer.}
 }
 \value{
 A list.
