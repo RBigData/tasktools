@@ -6,7 +6,7 @@ mpi_napply_preschedule = function(n, FUN, ..., checkpoint_path=NULL)
   if (!is.null(checkpoint_path))
   {
     checkpoint = paste0(checkpoint_path, "/pbd", rank, ".rda")
-    ret.local = crlapply(jobs, FUN, FILE=checkpoint, ...)
+    ret.local = crlapply(jobs, FUN, checkpoint_file=checkpoint, ...)
   }
   else
     ret.local = lapply(jobs, FUN=FUN, ...)
