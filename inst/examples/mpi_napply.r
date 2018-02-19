@@ -4,13 +4,12 @@ suppressMessages(library(tasktools))
 costly = function(x, waittime)
 {
   Sys.sleep(waittime)
-  rank = comm.rank()
-  cat(paste("iter", i, "executed on rank", rank, "\n"))
+  cat(paste("iter", x, "executed on rank", comm.rank(), "\n"))
   
   sqrt(x)
 }
 
-ret = mpi_napply(5, costly, preschedule=FALSE, waittime=comm.rank())
+ret = mpi_napply(10, costly, checkpoint_path="/tmp", preschedule=TRUE, waittime=1)
 comm.cat("\n", quiet=TRUE)
 comm.print(unlist(ret))
 
