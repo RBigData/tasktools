@@ -1,3 +1,12 @@
+check_checkpoint_freq = function(checkpoint_freq)
+{
+  freq = as.integer(checkpoint_freq)
+  if (is.na(freq) || length(freq) != 1L || freq < 1L)
+    comm.stop("argument 'checkpoint_freq' must be a positive integer")
+  
+  freq
+}
+
 #' crlapply
 #' 
 #' An \code{lapply()}-like interface with automatic checkpoint/restart
@@ -29,9 +38,7 @@ crlapply = function(X, FUN, ..., checkpoint_file, checkpoint_freq=1)
   if (missing(checkpoint_file))
     stop("argument 'FILE' is missing, with no default")
   
-  checkpoint_freq = as.integer(checkpoint_freq)
-  if (is.na(checkpoint_freq) || length(checkpoint_freq) != 1L || checkpoint_freq < 1L)
-    stop("argument 'checkpoint_freq' must be a positive integer")
+  checkpoint_freq = check_checkpoint_freq(checkpoint_freq)
   
   n = length(X)
   

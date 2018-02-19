@@ -1,4 +1,4 @@
-mpi_napply_preschedule = function(n, FUN, ..., checkpoint_path=NULL)
+mpi_napply_preschedule = function(n, FUN, ..., checkpoint_path=NULL, checkpoint_freq=1)
 {
   rank = pbdMPI::comm.rank()
   jobs = pbdMPI::get.jid(n)
@@ -6,7 +6,7 @@ mpi_napply_preschedule = function(n, FUN, ..., checkpoint_path=NULL)
   if (!is.null(checkpoint_path))
   {
     checkpoint = paste0(checkpoint_path, "/pbd", rank, ".rda")
-    ret.local = crlapply(jobs, FUN, checkpoint_file=checkpoint, ...)
+    ret.local = crlapply(jobs, FUN, checkpoint_file=checkpoint, checkpoint_freq=checkpoint_freq, ...)
   }
   else
     ret.local = lapply(jobs, FUN=FUN, ...)
@@ -155,6 +155,9 @@ mpi_napply_nopreschedule = function(n, FUN, ..., checkpoint_path=NULL)
 #' node-local storage can also be used. All checkpoint files will be removed on
 #' successful completion of the function. If the value is the default
 #' \code{NULL}, then no checkpointing takes place.
+#' @param checkpoint_freq
+#' The checkpoint frequency; a positive integer. The value is assumed to be 1
+#' if \code{preschedule=FALSE}.
 #' @param preschedule
 #' Should the jobs be distributed among the MPI ranks up front? Otherwise, the
 #' jobs will be evaluated on a "first come first serve" basis among the ranks.
@@ -163,7 +166,7 @@ mpi_napply_nopreschedule = function(n, FUN, ..., checkpoint_path=NULL)
 #' A list on rank 0.
 #' 
 #' @export
-mpi_napply = function(n, FUN, ..., checkpoint_path=NULL, preschedule=TRUE)
+mpi_napply = function(n, FUN, ..., checkpoint_path=NULL, checkpoint_freq=1, preschedule=TRUE)
 {
   size = comm.size()
   
@@ -171,13 +174,16 @@ mpi_napply = function(n, FUN, ..., checkpoint_path=NULL, preschedule=TRUE)
   check.is.function(FUN)
   check.is.flag(preschedule)
   if (!is.null(checkpoint_path))
+  {
     check.is.string(checkpoint_path)
+    checkpoint_freq = check_checkpoint_freq(checkpoint_freq)
+  }
   
   if (size < 2)
     comm.stop("function requires at least 2 ranks")
   
   if (isTRUE(preschedule) || n <= size)
-    mpi_napply_preschedule(n=n, FUN=FUN, checkpoint_path=checkpoint_path, ...)
+    mpi_napply_preschedule(n=n, FUN=FUN, checkpoint_path=checkpoint_path, checkpoint_freq=checkpoint_freq, ...)
   else
     mpi_napply_nopreschedule(n=n, FUN=FUN, checkpoint_path=checkpoint_path, ...)
 }
