@@ -21,7 +21,7 @@ distribute_X = function(X)
 
 
 
-mpi_lapply_preschedule = function(X, FUN, ..., checkpoint_path=NULL)
+mpi_lapply_preschedule = function(X, FUN, ..., checkpoint_path=NULL, checkpoint_freq=1)
 {
   n = length(X)
   jobs = distribute_X(X)
@@ -30,7 +30,7 @@ mpi_lapply_preschedule = function(X, FUN, ..., checkpoint_path=NULL)
   if (!is.null(checkpoint_path))
   {
     checkpoint = paste0(checkpoint_path, "/pbd", rank, ".rda")
-    ret.local = crlapply(jobs, FUN, FILE=checkpoint, ...)
+    ret.local = crlapply(jobs, FUN, checkpoint_file=checkpoint, checkpoint_freq=checkpoint_freq, ...)
   }
   else
     ret.local = lapply(jobs, FUN=FUN, ...)
@@ -82,6 +82,8 @@ mpi_lapply_nopreschedule = function(X, FUN, ..., checkpoint_path=NULL)
 #' node-local storage can also be used. All checkpoint files will be removed on
 #' successful completion of the function. If the value is the default
 #' \code{NULL}, then no checkpointing takes place.
+#' @param checkpoint_freq
+#' The checkpoint frequency; a positive integer.
 #' @param preschedule
 #' Should the jobs be distributed among the MPI ranks up front? Otherwise, the
 #' jobs will be evaluated on a "first come first serve" basis among the ranks.
@@ -90,20 +92,23 @@ mpi_lapply_nopreschedule = function(X, FUN, ..., checkpoint_path=NULL)
 #' A list on rank 0.
 #' 
 #' @export
-mpi_lapply = function(X, FUN, ..., checkpoint_path=NULL, preschedule=TRUE)
+mpi_lapply = function(X, FUN, ..., checkpoint_path=NULL, checkpoint_freq=1, preschedule=TRUE)
 {
   size = comm.size()
   
   check.is.function(FUN)
   check.is.flag(preschedule)
   if (!is.null(checkpoint_path))
+  {
     check.is.string(checkpoint_path)
+    checkpoint_freq = check_checkpoint_freq(checkpoint_freq)
+  }
   
   if (size < 2)
     comm.stop("function requires at least 2 ranks")
   
   if (isTRUE(preschedule) || length(X) <= size)
-    mpi_lapply_preschedule(X=X, FUN=FUN, checkpoint_path=checkpoint_path, ...)
+    mpi_lapply_preschedule(X=X, FUN=FUN, checkpoint_path=checkpoint_path, checkpoint_freq=checkpoint_freq, ...)
   else
     mpi_lapply_nopreschedule(X=X, FUN=FUN, checkpoint_path=checkpoint_path, ...)
 }

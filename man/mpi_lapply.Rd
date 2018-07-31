@@ -4,7 +4,8 @@
 \alias{mpi_lapply}
 \title{mpi_napply}
 \usage{
-mpi_lapply(X, FUN, ..., checkpoint_path = NULL, preschedule = TRUE)
+mpi_lapply(X, FUN, ..., checkpoint_path = NULL, checkpoint_freq = 1,
+  preschedule = TRUE)
 }
 \arguments{
 \item{X}{A list or vector on rank 0 autmoatically distributed to other ranks. Values
@@ -20,6 +21,8 @@ path should be accessible to all ranks. However, a local path pointing to
 node-local storage can also be used. All checkpoint files will be removed on
 successful completion of the function. If the value is the default
 \code{NULL}, then no checkpointing takes place.}
+
+\item{checkpoint_freq}{The checkpoint frequency; a positive integer.}
 
 \item{preschedule}{Should the jobs be distributed among the MPI ranks up front? Otherwise, the
 jobs will be evaluated on a "first come first serve" basis among the ranks.}

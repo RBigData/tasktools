@@ -4,7 +4,8 @@
 \alias{mpi_napply}
 \title{mpi_napply}
 \usage{
-mpi_napply(n, FUN, ..., checkpoint_path = NULL, preschedule = TRUE)
+mpi_napply(n, FUN, ..., checkpoint_path = NULL, checkpoint_freq = 1,
+  preschedule = TRUE)
 }
 \arguments{
 \item{n}{A global, positive integer.}
@@ -19,6 +20,9 @@ path should be accessible to all ranks. However, a local path pointing to
 node-local storage can also be used. All checkpoint files will be removed on
 successful completion of the function. If the value is the default
 \code{NULL}, then no checkpointing takes place.}
+
+\item{checkpoint_freq}{The checkpoint frequency; a positive integer. The value is assumed to be 1
+if \code{preschedule=FALSE}.}
 
 \item{preschedule}{Should the jobs be distributed among the MPI ranks up front? Otherwise, the
 jobs will be evaluated on a "first come first serve" basis among the ranks.}

@@ -1,3 +1,5 @@
+suppressMessages(library(tasktools))
+
 costly = function(x, waittime)
 {
   Sys.sleep(waittime)
@@ -6,4 +8,6 @@ costly = function(x, waittime)
   sqrt(x)
 }
 
-crlapply::crlapply(1:10, costly, FILE="/tmp/cr.rdata", waittime=0.5)
+ret = crlapply(1:10, costly, checkpoint_file="/tmp/cr.rdata", waittime=0.5)
+cat("\n")
+print(unlist(ret))
