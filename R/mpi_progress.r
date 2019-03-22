@@ -50,6 +50,9 @@ check_is_prescheduled = function(checkpoint_file)
 mpi_progress = function(checkpoint_path)
 {
   checkpoint_files = dir(checkpoint_path, full.names=TRUE, pattern="^pbd.*.rda")
+  if (length(checkpoint_files) == 0)
+    stop("no checkpoint files found")
+  
   tot = 0L
   done = 0L
   
