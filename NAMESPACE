@@ -3,4 +3,5 @@
 export(crlapply)
 export(mpi_lapply)
 export(mpi_napply)
+export(mpi_progress)
 import(pbdMPI)

@@ -11,4 +11,3 @@ Tools for task-based parallelism with MPI via pbdMPI.
 Drew Schmidt
 }
 \keyword{package}
-

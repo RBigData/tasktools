@@ -96,7 +96,7 @@ mpi_napply_nopreschedule = function(n, FUN, ..., checkpoint_path=NULL)
         break
       
       if (checkpointing)
-        save(file=checkpoint, i, org.local, ret.local)
+        save(file=checkpoint, n, i, org.local, ret.local)
     }
   }
   

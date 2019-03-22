@@ -40,4 +40,3 @@ If \code{preschedule=FALSE} then jobs are likely to be evaluated out of order
 linear order, so that the first element of the return list is the value
 resulting from evaluating \code{FUN} at 1, the second at 2, and so on.
 }
-
