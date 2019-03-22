@@ -147,7 +147,7 @@ We also support a kind of progress bar, but it's definitely not what you're thin
 suppressMessages(library(tasktools))
 
 f = function(i) {print(i); Sys.sleep(1); sqrt(i)}
-ignore = mpi_napply(20, f, checkpoint_path="/tmp/asdf")
+ignore = mpi_napply(20, f, checkpoint_path="/tmp")
 
 finalize()
 ```
