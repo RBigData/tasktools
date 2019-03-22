@@ -136,3 +136,43 @@ iter 10 executed on rank 2
 ```
 
 This too supports checkpointing, but hopefully how that works is clear.
+
+
+
+## Progress Bar
+
+We also support a kind of progress bar, but it's definitely not what you're thinking. Let's start with an example similar to the one above:
+
+```r
+suppressMessages(library(tasktools))
+
+f = function(i) {print(i); Sys.sleep(1); sqrt(i)}
+ignore = mpi_napply(20, f, checkpoint_path="/tmp/asdf")
+
+finalize()
+```
+
+We can put these into the file `slow_sqrt.r` and run it for a bit before manually killing it with `Ctrl`+`c`:
+
+```
+$ mpirun -np 3 Rscript slow_sqrt.r
+
+[1] 14
+[1] 7
+[1] 1
+[1] 15
+^C[1] 16
+[1] 8
+[1] 2
+```
+
+We can check the progress by invoking `mpi_progress()`:
+
+```bash
+$ Rscript -e "tasktools::mpi_progress('/tmp')"
+## [=================---------------------------------] (7/20)
+```
+
+The progress bar works by scanning the checkpoint files, so we don't actually have to kill the tasks to run the progress bar bit (and in fact for a real workflow, you wouldn't want to). But for the sake of demonstration, this is much simpler.
+
+The above example was run with the default `preschedule=TRUE`, but it will also work if we have `preschedule=FALSE`. There are some caveats to the progress bar, however. Please carefully check the `?tasktools::mpi_progress` documentation.
