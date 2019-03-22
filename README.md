@@ -24,7 +24,7 @@ These functions are conceptually similar to `pbdMPI::pbdLapply()`, but with some
 install.packages("tasktools")
 ``` -->
 
-The development version is maintained on GitHub, and can easily be installed by any of the packages that offer installations from GitHub:
+The development version is maintained on GitHub:
 
 ```r
 remotes::install_github("RBigData/tasktools")
