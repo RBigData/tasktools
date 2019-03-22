@@ -1,0 +1,7 @@
+Release 0.1-1:
+  * Added mpi_progress()
+
+Release 0.1-0:
+  * Added mpi_napply()
+  * Added crlapply()
+  * Added mpi_lapply()
