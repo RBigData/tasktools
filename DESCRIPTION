@@ -11,7 +11,9 @@ Description: Tools for task-based parallelism with MPI via 'pbdMPI'.
 License: BSD 2-clause License + file LICENSE
 Depends:
     R (>= 3.1.0),
-    pbdMPI
+    pbdMPI (>= 0.4-3)
+Imports:
+    crlapply (>= 0.1-0)
 ByteCompile: yes
 URL: https://github.com/wrathematics/tasktools
 BugReports: https://github.com/wrathematics/tasktools/issues

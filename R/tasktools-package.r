@@ -8,6 +8,7 @@
 #' checkpointing, which allows the task runs to be interrupted and restarted
 #' from their last completed task.
 #' 
+#' @importFrom crlapply crlapply
 #' @import pbdMPI
 #' 
 #' @docType package
