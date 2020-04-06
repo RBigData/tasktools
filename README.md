@@ -19,11 +19,11 @@ In addition to these "ply" functions, also offer `mpi_progress()` to check on th
 
 ## Installation
 
-<!-- To install the R package, run:
+You can install the stable version from [the HPCRAN](https://hpcran.org) using the usual `install.packages()`:
 
 ```r
-install.packages("tasktools")
-``` -->
+install.packages("tasktools", repos=c("https://hpcran.org", "https://cran.rstudio.com"))
+```
 
 The development version is maintained on GitHub:
 
