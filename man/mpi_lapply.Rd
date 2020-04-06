@@ -4,8 +4,14 @@
 \alias{mpi_lapply}
 \title{mpi_napply}
 \usage{
-mpi_lapply(X, FUN, ..., checkpoint_path = NULL, checkpoint_freq = 1,
-  preschedule = TRUE)
+mpi_lapply(
+  X,
+  FUN,
+  ...,
+  checkpoint_path = NULL,
+  checkpoint_freq = 1,
+  preschedule = TRUE
+)
 }
 \arguments{
 \item{X}{A list or vector on rank 0 autmoatically distributed to other ranks. Values

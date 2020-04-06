@@ -4,8 +4,14 @@
 \alias{mpi_napply}
 \title{mpi_napply}
 \usage{
-mpi_napply(n, FUN, ..., checkpoint_path = NULL, checkpoint_freq = 1,
-  preschedule = TRUE)
+mpi_napply(
+  n,
+  FUN,
+  ...,
+  checkpoint_path = NULL,
+  checkpoint_freq = 1,
+  preschedule = TRUE
+)
 }
 \arguments{
 \item{n}{A global, positive integer.}
