@@ -22,4 +22,5 @@ Authors@R: c(
     person("ORNL", role = "cph")
     )
 Maintainer: Drew Schmidt <wrathematics@gmail.com>
+HPCRAN: mpi
 RoxygenNote: 7.1.0
