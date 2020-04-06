@@ -1,3 +1,4 @@
+dist: bionic
 language: R
 warnings_are_errors: true
 
