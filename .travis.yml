@@ -1,7 +1,10 @@
 language: R
 warnings_are_errors: true
 
+apt_packages:
+  - libopenmpi-dev
+  - openmpi-bin
+
 before_install:
-  - sudo apt-get update -q
-  - sudo apt-get install -y -q libopenmpi-dev openmpi-bin
   - LD_PRELOAD=/usr/lib/openmpi/lib/libmpi.so
+  - R -e "install.packages('crlapply', repos='https://hpcran.org')"
