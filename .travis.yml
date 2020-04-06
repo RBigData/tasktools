@@ -2,10 +2,22 @@ dist: bionic
 language: R
 warnings_are_errors: true
 
-sudo: required
+apt_packages:
+  - ssh
+  - libopenmpi-dev
+  - openmpi-bin
+
+env:
+  - _R_CHECK_CRAN_INCOMING_=false
 
 before_install:
-  - sudo apt-get update -q
-  - sudo apt-get install -y -q libopenmpi-dev openmpi-bin
   - LD_PRELOAD=/usr/lib/openmpi/lib/libmpi.so
   - R -e "install.packages('crlapply', repos='https://hpcran.org')"
+  - Rscript -e "install.packages('pbdMPI', repos = 'https://cran.r-project.org/')"
+  - cd ../
+  - R CMD build --no-resave-data --no-manual --no-build-vignettes tasktools
+
+install:
+  - mpirun -np 1 --mca btl_base_warn_component_unused 0 R CMD check ./tasktools_*.tar.gz --as-cran
+  - cat ./pbdMPI.Rcheck/pbdMPI-Ex.Rout
+  - cat ./pbdMPI.Rcheck/pbdMPI-Ex.timings
