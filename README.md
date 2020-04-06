@@ -6,13 +6,14 @@
 * **Author:** Drew Schmidt
 
 
-Tools for task-based parallelism with MPI via pbdMPI. Currently we provide:
+Tools for task-based parallelism with MPI via pbdMPI. Currently we provide these basic functions:
 
-1. `crlapply()` --- a serial `lapply()` with automatic checkpoint/restart
-2. `mpi_napply()` --- a distributed `lapply()` that operates on an integer sequence. Supports checkpoint/restart and non-prescheduled workloads.
-3. `mpi_lapply()` --- a fully general, distributed `lapply()`.
+1. `mpi_napply()` --- a distributed `lapply()` that operates on an integer sequence. Supports checkpoint/restart and non-prescheduled workloads.
+2. `mpi_lapply()` --- a fully general, distributed `lapply()`.
 
-These functions are conceptually similar to `pbdMPI::pbdLapply()`, but with some key differences.
+These functions are conceptually similar to `pbdLapply()` from the [pbdMPI package](https://github.com/RBigData/pbdMPI), but with some key differences. The pbdMPI functions have more modes of operation, allowing for different kinds of distributions of the inputs for the more general `mpi_lapply()`. And naturally, the pbdMPI functions do not handle checkpoint/restart.
+
+In addition to these "ply" functions, also offer `mpi_progress()` to check on the status of running jobs.
 
 
 
@@ -46,10 +47,10 @@ costly = function(x, waittime)
 }
 ```
 
-We can run a checkpointed `lapply()` in serial via `crlapply()`:
+We can run a checkpointed `lapply()` in serial via `crlapply()` from the [crlapply package](https://github.com/wrathematics/crlapply):
 
 ```r
-ret = crlapply(1:10, costly, FILE="/tmp/cr.rdata", waittime=0.5)
+ret = crlapply::crlapply(1:10, costly, FILE="/tmp/cr.rdata", waittime=0.5)
 unlist(ret)
 ```
 
