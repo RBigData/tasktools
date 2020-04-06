@@ -1,16 +1,14 @@
 dist: bionic
+sudo: required
 language: R
 warnings_are_errors: true
-
-apt_packages:
-  - ssh
-  - libopenmpi-dev
-  - openmpi-bin
 
 env:
   - _R_CHECK_CRAN_INCOMING_=false
 
 before_install:
+  - sudo apt-get update -q
+  - sudo apt-get install -y -q libopenmpi-dev openmpi-bin libopenblas-dev
   - LD_PRELOAD=/usr/lib/openmpi/lib/libmpi.so
   - R -e "install.packages('crlapply', repos='https://hpcran.org')"
   - Rscript -e "install.packages('pbdMPI', repos = 'https://cran.r-project.org/')"
