@@ -1,7 +1,7 @@
 Package: tasktools
 Type: Package
 Title: Tools for Task Parallelism with MPI
-Version: 0.1-1
+Version: 0.2-0
 Description: Tools for task-based parallelism with MPI via 'pbdMPI'.
     Several utilities are provided, each with an apply-like interface. There is
     support for 'pre-scheduling' tasks as well as a "load-balancing" mode that
