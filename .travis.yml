@@ -3,14 +3,9 @@ dist: trusty
 language: r
 warnings_are_errors: true
 
-env:
-  - _R_CHECK_CRAN_INCOMING_=false
-
 before_install:
   - sudo apt-get update -q
-  - sudo apt-get install -y -q libopenmpi-dev openmpi-bin libopenblas-dev
+  - sudo apt-get install -y -q libopenmpi-dev openmpi-bin
   - LD_PRELOAD=/usr/lib/openmpi/lib/libmpi.so
-  - ln -s /usr/lib/libopenblas.so /usr/lib/R/lib/libRblas.so
-  - ln -s /usr/lib/libopenblas.so /usr/lib/R/lib/libRlapack.so
   - R -e "install.packages('crlapply', repos='https://hpcran.org')"
   - Rscript -e "install.packages('pbdMPI', repos = 'https://cran.r-project.org/')"
