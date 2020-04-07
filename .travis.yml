@@ -10,12 +10,7 @@ before_install:
   - sudo apt-get update -q
   - sudo apt-get install -y -q libopenmpi-dev openmpi-bin libopenblas-dev
   - LD_PRELOAD=/usr/lib/openmpi/lib/libmpi.so
+  - ln -s /usr/lib/x86_64-linux-gnu/libopenblas.so /usr/lib/R/libRblas.so
+  - ln -s /usr/lib/x86_64-linux-gnu/libopenblas.so /usr/lib/R/libRlapack.so
   - R -e "install.packages('crlapply', repos='https://hpcran.org')"
   - Rscript -e "install.packages('pbdMPI', repos = 'https://cran.r-project.org/')"
-  - cd ../
-  - R CMD build --no-resave-data --no-manual --no-build-vignettes tasktools
-
-install:
-  - mpirun -np 1 --mca btl_base_warn_component_unused 0 R CMD check ./tasktools_*.tar.gz --as-cran
-  - cat ./pbdMPI.Rcheck/pbdMPI-Ex.Rout
-  - cat ./pbdMPI.Rcheck/pbdMPI-Ex.timings
